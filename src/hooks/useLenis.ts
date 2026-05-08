@@ -2,12 +2,13 @@ import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 
 // ── Constants ──────────────────────────────────────────────────────────────
-const SNAP_DEBOUNCE_MS = 480;
-const SNAP_THRESHOLD   = 0.18; // fraction of viewport — only snap when within 18% vh of a section top
-const SNAP_DURATION    = 1.1;  // seconds
+const SNAP_THRESHOLD     = 0.18;  // fraction of viewport — only snap within 18% vh of a section top
+const SNAP_DURATION      = 0.7;   // seconds — short enough to feel continuous
+const WHEEL_IDLE_MS      = 60;    // ms after last wheel event before "wheel has paused"
+const VELOCITY_THRESHOLD = 150;   // px/s — below this, Lenis is coasting nearly to a stop
 
 const lenisEasing = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
-const snapEasing  = (t: number) => 1 - Math.pow(1 - t, 3); // cubic ease-out — slightly softer than lenis default
+const snapEasing  = (t: number) => 1 - Math.pow(1 - t, 3); // cubic ease-out
 
 // ── Guards ─────────────────────────────────────────────────────────────────
 function isFormActive(): boolean {
@@ -21,12 +22,10 @@ function isTouchPrimary(): boolean {
   return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 }
 
-// ── Section query ──────────────────────────────────────────────────────────
 function getSnapSections(): HTMLElement[] {
   return Array.from(document.querySelectorAll<HTMLElement>('[data-snap-section]'));
 }
 
-// ── Keys that trigger page scroll ─────────────────────────────────────────
 const SCROLL_KEYS = new Set(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' ']);
 
 // ── Hook ───────────────────────────────────────────────────────────────────
@@ -55,28 +54,37 @@ export function useLenis() {
     }
     rafId = requestAnimationFrame(raf);
 
-    // ── Snap logic ──────────────────────────────────────────────────────
-    let snapTimer: ReturnType<typeof setTimeout> | null = null;
-    let isSnapping = false;
+    // ── Velocity-based section snap ─────────────────────────────────────
+    // Fires from the Lenis scroll event every RAF tick. When velocity
+    // has dropped below the threshold AND the user hasn't wheeled recently,
+    // we know the scroll is coasting to a natural stop. If a section
+    // boundary is within the snap zone at that moment, glide to it.
+    // This avoids any visible debounce pause — the snap merges with the
+    // end of the Lenis deceleration curve.
 
-    function doSnap() {
+    let isSnapping    = false;
+    let lastWheelTime = 0;
+
+    lenis.on('scroll', (l: Lenis) => {
       if (isSnapping || isFormActive() || isTouchPrimary()) return;
 
-      const scrollY    = window.scrollY;
-      const threshold  = window.innerHeight * SNAP_THRESHOLD;
-      const sections   = getSnapSections();
+      const now       = Date.now();
+      const wheelIdle = now - lastWheelTime > WHEEL_IDLE_MS;
+      const velLow    = Math.abs(l.velocity) < VELOCITY_THRESHOLD;
+
+      // Only act when wheel input has paused and Lenis is nearly coasting to stop
+      if (!wheelIdle || !velLow) return;
+
+      const scroll    = l.scroll;
+      const threshold = window.innerHeight * SNAP_THRESHOLD;
 
       let target: HTMLElement | null = null;
-      let nearestDist  = Infinity;
+      let nearestDist = Infinity;
 
-      for (const section of sections) {
-        const sectionTop = scrollY + section.getBoundingClientRect().top;
-        const dist       = Math.abs(sectionTop - scrollY);
-
-        // Skip if already aligned or beyond the snap range
-        if (dist <= 5 || dist >= threshold) continue;
-
-        if (dist < nearestDist) {
+      for (const section of getSnapSections()) {
+        const sectionTop = scroll + section.getBoundingClientRect().top;
+        const dist       = Math.abs(sectionTop - scroll);
+        if (dist > 5 && dist < threshold && dist < nearestDist) {
           nearestDist = dist;
           target      = section;
         }
@@ -91,32 +99,27 @@ export function useLenis() {
         offset:   0,
       });
 
-      // Release lock once the animation has finished
-      setTimeout(() => { isSnapping = false; }, (SNAP_DURATION + 0.3) * 1000);
-    }
+      // Release lock once snap animation finishes
+      setTimeout(() => { isSnapping = false; }, (SNAP_DURATION + 0.2) * 1000);
+    });
 
-    function scheduleSnap() {
-      // If user scrolls during a snap, cancel it so they can scroll freely
+    // ── User input tracking ─────────────────────────────────────────────
+    function onUserInput() {
+      lastWheelTime = Date.now();
+      // User scrolling overrides any in-progress snap
       if (isSnapping) isSnapping = false;
-      if (snapTimer) clearTimeout(snapTimer);
-      snapTimer = setTimeout(doSnap, SNAP_DEBOUNCE_MS);
-    }
-
-    function onWheel() {
-      scheduleSnap();
     }
 
     function onKeyDown(e: KeyboardEvent) {
-      if (SCROLL_KEYS.has(e.key) && !isFormActive()) scheduleSnap();
+      if (SCROLL_KEYS.has(e.key) && !isFormActive()) onUserInput();
     }
 
-    window.addEventListener('wheel',   onWheel,   { passive: true });
+    window.addEventListener('wheel',   onUserInput, { passive: true });
     window.addEventListener('keydown', onKeyDown);
 
     return () => {
       cancelAnimationFrame(rafId);
-      if (snapTimer) clearTimeout(snapTimer);
-      window.removeEventListener('wheel',   onWheel);
+      window.removeEventListener('wheel',   onUserInput);
       window.removeEventListener('keydown', onKeyDown);
       lenis.destroy();
       lenisRef.current = null;
