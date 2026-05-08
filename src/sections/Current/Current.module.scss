@@ -1,0 +1,132 @@
+.section {
+  position: relative;
+  min-height: 100vh;
+  background: var(--graphite);
+  display: flex;
+  align-items: center;
+  padding: var(--section-v) var(--page-pad);
+  overflow: hidden;
+}
+
+.mesh {
+  position: absolute;
+  inset: 0;
+  animation: meshShift 14s ease-in-out infinite alternate;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background:
+      radial-gradient(ellipse 65% 55% at 18% 72%, rgba(192, 122, 101, 0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 65% at 78% 28%, rgba(135, 157, 184, 0.11) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 45% at 52% 52%, rgba(201, 169, 110, 0.07) 0%, transparent 70%);
+  }
+}
+
+@keyframes meshShift {
+  from {
+    background:
+      radial-gradient(ellipse 65% 55% at 18% 72%, rgba(192, 122, 101, 0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 65% at 78% 28%, rgba(135, 157, 184, 0.11) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 45% at 52% 52%, rgba(201, 169, 110, 0.07) 0%, transparent 70%);
+  }
+  to {
+    background:
+      radial-gradient(ellipse 55% 65% at 42% 28%, rgba(192, 122, 101, 0.11) 0%, transparent 70%),
+      radial-gradient(ellipse 65% 55% at 68% 72%, rgba(135, 157, 184, 0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 55% at 28% 58%, rgba(201, 169, 110, 0.09) 0%, transparent 70%);
+  }
+}
+
+/* ── Abstract background image — drift.png, cool blue smoke ─────────
+   Blends with the existing CSS meshShift animation.
+   Screen mode means only the luminous blue vapour adds light;
+   the dark image base disappears against the graphite bg.         */
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../assets/resonance/drift.png');
+  background-size: cover;
+  background-position: 68% 42%;
+  background-repeat: no-repeat;
+  opacity: 0.28;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  animation: bgDrift 48s ease-in-out infinite alternate;
+}
+
+@keyframes bgDrift {
+  from { transform: scale(1)    translate(0, 0);        }
+  to   { transform: scale(1.10) translate(-30px, -14px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bgImage { animation: none; }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.label {
+  margin-bottom: 40px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(52px, 9.5vw, 134px);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  color: var(--ivory);
+  margin-top: 0;
+
+  .accent {
+    font-style: italic;
+    color: var(--coral);
+    display: block;
+  }
+}
+
+.body {
+  font-family: var(--font-body);
+  font-weight: 200;
+  font-size: clamp(14px, 1.4vw, 17px);
+  line-height: 1.85;
+  color: var(--ivory-dim);
+  margin-top: 32px;
+  max-width: 540px;
+}
+
+.statsRow {
+  display: flex;
+  gap: 48px;
+  margin-top: 60px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  border-top: 1px solid rgba(244, 239, 230, 0.08);
+  padding-top: 18px;
+  min-width: 110px;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.2vw, 46px);
+  font-weight: 300;
+  color: var(--ivory);
+}
+
+.statLabel {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+  opacity: 0.5;
+  margin-top: 6px;
+}

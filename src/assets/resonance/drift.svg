@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+
+    <filter id="bxl" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="75"/>
+    </filter>
+    <filter id="blg" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+
+    <!-- Smoke/flow: turbulence displacement on thick stroked paths -->
+    <filter id="smoke" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="turbulence" baseFrequency="0.013 0.006" numOctaves="4" seed="23" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="42" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="16"/>
+    </filter>
+
+    <!-- Vignette: warm dark -->
+    <radialGradient id="vgn" cx="400" cy="300" r="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#1C1510" stop-opacity="0"/>
+      <stop offset="65%"  stop-color="#120E08" stop-opacity="0.48"/>
+      <stop offset="100%" stop-color="#060402" stop-opacity="0.88"/>
+    </radialGradient>
+
+  </defs>
+
+  <!-- Base -->
+  <rect width="800" height="600" fill="#1C1510"/>
+
+  <!-- Coral sweep — large rotated ellipse, upper area -->
+  <ellipse cx="558" cy="158" rx="315" ry="172"
+           fill="#C07A65" fill-opacity="0.47" filter="url(#bxl)"
+           transform="rotate(-22 558 158)"/>
+
+  <!-- Bronze centre pool -->
+  <ellipse cx="375" cy="325" rx="238" ry="185" fill="#C9A96E" fill-opacity="0.33" filter="url(#bxl)"/>
+
+  <!-- Coral lower drift — settled smoke -->
+  <ellipse cx="138" cy="468" rx="188" ry="148" fill="#C07A65" fill-opacity="0.28" filter="url(#bxl)"/>
+
+  <!-- Drifting smoke wisps — thick bezier paths, turbulence-displaced -->
+  <g filter="url(#smoke)" opacity="0.48">
+    <path d="M-60 215 C 160 172, 355 252, 548 188 C 692 140, 790 196, 880 178"
+          fill="none" stroke="#C07A65" stroke-width="88" stroke-opacity="0.28" stroke-linecap="round"/>
+    <path d="M-60 338 C 195 296, 385 374, 568 312 C 712 264, 812 322, 892 298"
+          fill="none" stroke="#C9A96E" stroke-width="68" stroke-opacity="0.22" stroke-linecap="round"/>
+    <path d="M-60 452 C 215 415, 388 470, 578 432 C 722 404, 822 446, 905 424"
+          fill="none" stroke="#C07A65" stroke-width="78" stroke-opacity="0.20" stroke-linecap="round"/>
+  </g>
+
+  <!-- Vignette overlay -->
+  <rect width="800" height="600" fill="url(#vgn)"/>
+
+</svg>

@@ -1,0 +1,82 @@
+.section {
+  position: relative;
+  min-height: 100vh;
+  background: var(--deep);
+  padding: var(--section-v) var(--page-pad);
+  overflow: hidden;
+
+  /* Subtle ambient light — prevents flat look */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 65% 45% at 92% 8%,  rgba(201, 169, 110, 0.03) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 50% at 8%  92%, rgba(135, 157, 184, 0.025) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+/* ── Section background — pulse.png, teal concentric rings ──────────
+   At this very low opacity the image reads only as a faint teal
+   depth field behind the tile grid; the tiles' own images stay
+   dominant.                                                        */
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../assets/resonance/pulse.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 64px;
+}
+
+.label {
+  margin-bottom: 28px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(38px, 5.2vw, 72px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+}
+
+.accent {
+  font-style: italic;
+  color: var(--champagne);
+  opacity: 0.75;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

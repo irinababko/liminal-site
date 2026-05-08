@@ -1,0 +1,8 @@
+@use 'reset';
+@use 'tokens';
+@use 'typography';
+
+html,
+body {
+  background-color: var(--deep);
+}

@@ -1,0 +1,226 @@
+@charset "UTF-8";
+.section {
+  padding: var(--section-v) var(--page-pad);
+  background: var(--deep-verse);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Abstract background image — haze.png, warm/cool interweave ─────
+   The orange+blue flowing fabric echoes the poem's dual nature:
+   warm longing and cool clarity woven together.
+   Screen blend lets only the light ribbons show through.          */
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background-image: url("../../assets/resonance/haze.png");
+  background-size: 110%;
+  background-position: 58% 44%;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  animation: bgDrift 60s ease-in-out infinite alternate;
+}
+
+@keyframes bgDrift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.07) translate(-18px, 26px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bgImage {
+    animation: none;
+  }
+}
+/* ── Scroll-driven reading light ─────────────────── */
+/* Positioned with calc so Framer Motion's translateY doesn't conflict
+   with a CSS translateX(-50%) — no transform stacking needed. */
+.scrollGlow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  left: calc(50% - 300px);
+  top: -80px;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.065) 0%, rgba(201, 169, 110, 0.022) 42%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* ── Floating atmospheric orbs ───────────────────── */
+.orb3, .orb2, .orb1 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.orb1 {
+  width: 720px;
+  height: 720px;
+  top: -80px;
+  left: -160px;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.045) 0%, rgba(201, 169, 110, 0.015) 45%, transparent 70%);
+  animation: driftA 26s ease-in-out infinite alternate;
+}
+
+.orb2 {
+  width: 580px;
+  height: 580px;
+  bottom: -60px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(135, 157, 184, 0.055) 0%, rgba(135, 157, 184, 0.018) 45%, transparent 70%);
+  animation: driftB 34s ease-in-out infinite alternate;
+}
+
+.orb3 {
+  width: 420px;
+  height: 420px;
+  top: 42%;
+  right: 6%;
+  background: radial-gradient(circle, rgba(244, 239, 230, 0.022) 0%, transparent 65%);
+  animation: driftC 20s ease-in-out infinite alternate;
+}
+
+@keyframes driftA {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(70px, 90px) scale(1.12);
+  }
+}
+@keyframes driftB {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-55px, -75px) scale(0.9);
+  }
+}
+@keyframes driftC {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-35px, 65px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scrollGlow,
+  .orb1,
+  .orb2,
+  .orb3 {
+    animation: none;
+  }
+}
+/* ── Poem container ──────────────────────────────── */
+.poem {
+  max-width: 1100px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Line base ───────────────────────────────────── */
+.line {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: 1.22;
+  transition: text-shadow 0.6s ease;
+  cursor: default;
+}
+.line:hover {
+  text-shadow: 0 0 64px rgba(201, 169, 110, 0.16);
+}
+
+/* ── Size variants ───────────────────────────────── */
+.lineXl {
+  font-size: clamp(44px, 7.5vw, 108px);
+  letter-spacing: -0.025em;
+  color: var(--ivory);
+}
+
+.lineLg {
+  font-size: clamp(28px, 4.2vw, 62px);
+  letter-spacing: -0.015em;
+  color: rgba(244, 239, 230, 0.48);
+}
+
+.lineMd {
+  font-size: clamp(20px, 2.6vw, 40px);
+  color: rgba(244, 239, 230, 0.28);
+}
+
+/* ── Indent levels ───────────────────────────────── */
+.indent1 {
+  padding-left: clamp(44px, 8.5vw, 170px);
+}
+
+.indent2 {
+  padding-left: clamp(88px, 17vw, 340px);
+}
+
+/* ── Color overrides ─────────────────────────────── */
+.colorCoral {
+  color: var(--coral);
+  opacity: 0.68;
+}
+
+.colorBlue {
+  color: var(--blue);
+  opacity: 0.58;
+}
+
+.colorChampagne {
+  color: var(--champagne);
+  opacity: 0.5;
+}
+
+/* ── Italic ──────────────────────────────────────── */
+.italic {
+  font-style: italic;
+}
+
+/* ── Spacers ─────────────────────────────────────── */
+.spacerSm {
+  height: clamp(24px, 3vw, 48px);
+}
+
+.spacerLg {
+  height: clamp(48px, 7vw, 96px);
+}
+
+/* ── Mobile ──────────────────────────────────────── */
+@media (max-width: 640px) {
+  .indent1 {
+    padding-left: 24px;
+  }
+  .indent2 {
+    padding-left: 44px;
+  }
+  .scrollGlow {
+    width: 360px;
+    height: 360px;
+    left: calc(50% - 180px);
+  }
+  .orb1 {
+    width: 420px;
+    height: 420px;
+  }
+  .orb2 {
+    width: 340px;
+    height: 340px;
+  }
+  .orb3 {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=Verse.module.css.map */

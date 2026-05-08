@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+
+    <!-- Blur filters -->
+    <filter id="bxl" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="75"/>
+    </filter>
+    <filter id="blg" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+
+    <!-- Organic ring warp: fractal noise → displacement → light blur -->
+    <filter id="warp" x="-40%" y="-40%" width="180%" height="180%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.007 0.011" numOctaves="2" seed="14" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="24" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.8"/>
+    </filter>
+
+    <!-- Vignette: center transparent → corners dark amber -->
+    <radialGradient id="vgn" cx="400" cy="300" r="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#1A1610" stop-opacity="0"/>
+      <stop offset="68%"  stop-color="#0E0C08" stop-opacity="0.52"/>
+      <stop offset="100%" stop-color="#060402" stop-opacity="0.90"/>
+    </radialGradient>
+
+  </defs>
+
+  <!-- Base -->
+  <rect width="800" height="600" fill="#1A1610"/>
+
+  <!-- Primary champagne light source — lower-left third -->
+  <ellipse cx="275" cy="368" rx="225" ry="185" fill="#C9A96E" fill-opacity="0.54" filter="url(#bxl)"/>
+  <ellipse cx="222" cy="332" rx="115" ry="95"  fill="#C9A96E" fill-opacity="0.30" filter="url(#blg)"/>
+
+  <!-- Blue echo — upper-right, the reflected return signal -->
+  <ellipse cx="592" cy="138" rx="210" ry="175" fill="#879DB8" fill-opacity="0.44" filter="url(#bxl)"/>
+  <ellipse cx="650" cy="472" rx="108" ry="88"  fill="#879DB8" fill-opacity="0.17" filter="url(#blg)"/>
+
+  <!-- Concentric resonance rings — organically warped -->
+  <g filter="url(#warp)">
+    <ellipse cx="275" cy="368" rx="46"  ry="35"  fill="none" stroke="#C9A96E" stroke-width="1.4" stroke-opacity="0.70"/>
+    <ellipse cx="275" cy="368" rx="92"  ry="70"  fill="none" stroke="#C9A96E" stroke-width="1.0" stroke-opacity="0.44"/>
+    <ellipse cx="275" cy="368" rx="143" ry="109" fill="none" stroke="#C9A96E" stroke-width="0.75" stroke-opacity="0.26"/>
+    <ellipse cx="275" cy="368" rx="198" ry="151" fill="none" stroke="#A89060" stroke-width="0.55" stroke-opacity="0.17"/>
+    <ellipse cx="275" cy="368" rx="257" ry="196" fill="none" stroke="#879DB8" stroke-width="0.40" stroke-opacity="0.13"/>
+    <ellipse cx="275" cy="368" rx="320" ry="245" fill="none" stroke="#879DB8" stroke-width="0.30" stroke-opacity="0.09"/>
+  </g>
+
+  <!-- Vignette overlay -->
+  <rect width="800" height="600" fill="url(#vgn)"/>
+
+</svg>

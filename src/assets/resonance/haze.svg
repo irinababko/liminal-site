@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+
+    <filter id="bxl" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="75"/>
+    </filter>
+    <filter id="blg" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+    <filter id="bmd" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="25"/>
+    </filter>
+
+    <!-- Haze drift: soft fractal noise, atmospheric -->
+    <filter id="haze" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.012" numOctaves="4" seed="42" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="22" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="26"/>
+    </filter>
+
+    <!-- Vignette: deep blue-black -->
+    <radialGradient id="vgn" cx="400" cy="300" r="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#0A0E1C" stop-opacity="0"/>
+      <stop offset="58%"  stop-color="#070A14" stop-opacity="0.48"/>
+      <stop offset="100%" stop-color="#030508" stop-opacity="0.92"/>
+    </radialGradient>
+
+  </defs>
+
+  <!-- Base: deep blue-black -->
+  <rect width="800" height="600" fill="#0A0E1C"/>
+
+  <!-- Large blue atmospheric base — the haze itself -->
+  <ellipse cx="400" cy="300" rx="445" ry="378" fill="#879DB8" fill-opacity="0.24" filter="url(#bxl)"/>
+
+  <!-- Electric bloom — centre-right, the light through the haze -->
+  <ellipse cx="512" cy="252" rx="218" ry="188" fill="#6EFFD4" fill-opacity="0.24" filter="url(#bxl)"/>
+  <ellipse cx="512" cy="257" rx="98"  ry="84"  fill="#6EFFD4" fill-opacity="0.32" filter="url(#blg)"/>
+
+  <!-- Secondary cool blue pool — lower left -->
+  <ellipse cx="178" cy="382" rx="198" ry="165" fill="#879DB8" fill-opacity="0.22" filter="url(#bxl)"/>
+
+  <!-- Drifting haze clouds — barely perceptible, turbulence-displaced -->
+  <g filter="url(#haze)" opacity="0.38">
+    <ellipse cx="400" cy="288" rx="345" ry="235" fill="#6EFFD4" fill-opacity="0.12"/>
+    <ellipse cx="548" cy="198" rx="198" ry="158" fill="#879DB8" fill-opacity="0.18"/>
+    <ellipse cx="218" cy="358" rx="178" ry="142" fill="#6EFFD4" fill-opacity="0.10"/>
+  </g>
+
+  <!-- Vignette overlay -->
+  <rect width="800" height="600" fill="url(#vgn)"/>
+
+</svg>

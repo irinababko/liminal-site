@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "Bash(command -v fnm)",
+      "Read(//Users/user/.nvm/versions/node/**)",
+      "Bash(~/.nvm/versions/node/v22.22.2/bin/node *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
+      "Bash(kill %1)",
+      "WebSearch",
+      "Bash(brew install *)",
+      "Bash(ffmpeg -i \"/Users/user/Downloads/688218_Vfx Generative Vj Cgi_By_Hayk_Zakoyan_Artlist_HD.mp4\" -vf \"fps=1/3,scale=1280:-1\" /tmp/hero_ref_%03d.png -y)",
+      "Bash(ffprobe -v quiet -print_format json -show_streams /Users/user/liminal-site/docs/references/hero-animation-reference.mp4)",
+      "Bash(ffmpeg -i /Users/user/liminal-site/docs/references/hero-animation-reference.mp4 -vf \"fps=1/3,scale=960:-1\" /tmp/ref_%03d.png -y)"
+    ]
+  }
+}

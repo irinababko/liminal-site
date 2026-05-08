@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+
+    <filter id="bxl" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="75"/>
+    </filter>
+    <filter id="blg" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+    <filter id="bmd" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <!-- Fine spark blur for radiating lines -->
+    <filter id="spark" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5"/>
+    </filter>
+
+    <!-- Vignette: deep navy -->
+    <radialGradient id="vgn" cx="400" cy="300" r="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#090D1A" stop-opacity="0"/>
+      <stop offset="58%"  stop-color="#060A12" stop-opacity="0.52"/>
+      <stop offset="100%" stop-color="#020408" stop-opacity="0.92"/>
+    </radialGradient>
+
+  </defs>
+
+  <!-- Base: deep navy -->
+  <rect width="800" height="600" fill="#090D1A"/>
+
+  <!-- Blue atmospheric surround — fills the dark space with soft color -->
+  <ellipse cx="400" cy="300" rx="440" ry="360" fill="#879DB8" fill-opacity="0.20" filter="url(#bxl)"/>
+
+  <!-- Electric core — concentrated at upper-left-centre -->
+  <ellipse cx="382" cy="152" rx="158" ry="138" fill="#6EFFD4" fill-opacity="0.50" filter="url(#bxl)"/>
+  <ellipse cx="382" cy="156" rx="70"  ry="60"  fill="#6EFFD4" fill-opacity="0.62" filter="url(#blg)"/>
+  <ellipse cx="382" cy="154" rx="27"  ry="23"  fill="#C0FFF0" fill-opacity="0.78" filter="url(#bmd)"/>
+
+  <!-- Secondary blue pools — the pulse propagates outward -->
+  <ellipse cx="195" cy="408" rx="175" ry="148" fill="#879DB8" fill-opacity="0.22" filter="url(#bxl)"/>
+  <ellipse cx="608" cy="385" rx="158" ry="135" fill="#879DB8" fill-opacity="0.19" filter="url(#bxl)"/>
+
+  <!-- Radiating discharge lines from core at (382, 154) -->
+  <g filter="url(#spark)" opacity="0.72">
+    <!-- Primary rays — electric cyan, shorter -->
+    <line x1="382" y1="154" x2="382" y2="42"  stroke="#6EFFD4" stroke-width="0.9" stroke-opacity="0.58"/>
+    <line x1="382" y1="154" x2="480" y2="72"  stroke="#6EFFD4" stroke-width="0.7" stroke-opacity="0.44"/>
+    <line x1="382" y1="154" x2="536" y2="154" stroke="#6EFFD4" stroke-width="0.7" stroke-opacity="0.38"/>
+    <line x1="382" y1="154" x2="480" y2="236" stroke="#6EFFD4" stroke-width="0.55" stroke-opacity="0.30"/>
+    <line x1="382" y1="154" x2="382" y2="265" stroke="#6EFFD4" stroke-width="0.55" stroke-opacity="0.26"/>
+    <line x1="382" y1="154" x2="284" y2="236" stroke="#6EFFD4" stroke-width="0.55" stroke-opacity="0.30"/>
+    <line x1="382" y1="154" x2="228" y2="154" stroke="#6EFFD4" stroke-width="0.7" stroke-opacity="0.38"/>
+    <line x1="382" y1="154" x2="284" y2="72"  stroke="#6EFFD4" stroke-width="0.7" stroke-opacity="0.44"/>
+    <!-- Secondary rays — blue, longer, fainter -->
+    <line x1="382" y1="154" x2="574" y2="20"  stroke="#879DB8" stroke-width="0.4" stroke-opacity="0.22"/>
+    <line x1="382" y1="154" x2="678" y2="286" stroke="#879DB8" stroke-width="0.4" stroke-opacity="0.17"/>
+    <line x1="382" y1="154" x2="162" y2="368" stroke="#879DB8" stroke-width="0.4" stroke-opacity="0.17"/>
+    <line x1="382" y1="154" x2="136" y2="12"  stroke="#879DB8" stroke-width="0.4" stroke-opacity="0.20"/>
+  </g>
+
+  <!-- Vignette overlay -->
+  <rect width="800" height="600" fill="url(#vgn)"/>
+
+</svg>

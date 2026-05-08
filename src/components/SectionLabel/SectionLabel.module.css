@@ -1,0 +1,20 @@
+.label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+}
+.label::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/*# sourceMappingURL=SectionLabel.module.css.map */

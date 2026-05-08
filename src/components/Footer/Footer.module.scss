@@ -1,0 +1,141 @@
+.footer {
+  background: var(--deep);
+  padding: clamp(56px, 8vw, 96px) var(--page-pad) clamp(32px, 4vw, 48px);
+  position: relative;
+
+  /* Champagne → blue gradient divider line */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--page-pad);
+    right: var(--page-pad);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(201, 169, 110, 0.38),
+      rgba(135, 157, 184, 0.28),
+      transparent
+    );
+  }
+}
+
+/* ── Top row — brand left, links right ────────────── */
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(40px, 6vw, 88px);
+  align-items: start;
+  margin-bottom: clamp(44px, 6vh, 72px);
+}
+
+/* ── Brand block ──────────────────────────────────── */
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(38px, 6.5vw, 92px);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ivory);
+}
+
+.brandLine {
+  font-family: var(--font-body);
+  font-size: clamp(10px, 0.85vw, 12px);
+  letter-spacing: 0.09em;
+  color: rgba(244, 239, 230, 0.28);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+/* ── Links block ──────────────────────────────────── */
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 28px;
+}
+
+/* ── Navigation links ─────────────────────────────── */
+
+.nav {
+  display: flex;
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.navLink {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.40);
+  text-decoration: none;
+  transition: color 0.4s ease;
+
+  &:hover { color: var(--ivory); }
+}
+
+/* ── Social links ─────────────────────────────────── */
+
+.social {
+  display: flex;
+  gap: 24px;
+}
+
+.socialLink {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 230, 0.22);
+  text-decoration: none;
+  transition: color 0.4s ease;
+
+  &:hover { color: rgba(244, 239, 230, 0.62); }
+}
+
+/* ── Bottom bar — copyright ───────────────────────── */
+
+.bottom {
+  padding-top: clamp(24px, 3vw, 36px);
+  border-top: 1px solid rgba(244, 239, 230, 0.05);
+}
+
+.copyright {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(244, 239, 230, 0.15);
+}
+
+/* ── Mobile ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .top {
+    grid-template-columns: 1fr;
+    gap: clamp(36px, 8vw, 48px);
+  }
+
+  .links {
+    align-items: flex-start;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: 14px 24px;
+  }
+
+  .social {
+    gap: 20px;
+  }
+}

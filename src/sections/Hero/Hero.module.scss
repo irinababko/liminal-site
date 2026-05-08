@@ -1,0 +1,343 @@
+.section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--page-pad) 8vh;
+  overflow: hidden;
+  background: #030810; /* matches canvas base fill */
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ── CSS gradient flow layers ─────────────────────────
+   Three oversized blobs animated with keyframes.
+   Canvas underneath provides only the dark base + particles.
+   These layers are the primary visible background motion.    */
+
+.bgLayers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen; /* additive over canvas sphere — preserves sphere brightness */
+}
+
+/* Blue/indigo mass — travels lower-left → upper-right, 14 s */
+.bgAurora {
+  position: absolute;
+  width: 180%;
+  height: 180%;
+  top: -40%;
+  left: -40%;
+  background: radial-gradient(
+    ellipse 38% 38% at 50% 50%,
+    rgba(38, 78, 210,  0.58)  0%,
+    rgba(46, 62, 182,  0.30)  30%,
+    rgba(50, 50, 158,  0.12)  56%,
+    transparent               74%
+  );
+  will-change: transform;
+  animation: auroraFlow 14s ease-in-out infinite;
+}
+
+@keyframes auroraFlow {
+  0%   { transform: translate(-16%, 20%); }
+  50%  { transform: translate(16%, -24%); }
+  100% { transform: translate(-16%, 20%); }
+}
+
+/* Teal/navy mass — travels upper-right → lower-left (counter), 11 s */
+.bgNebula {
+  position: absolute;
+  width: 160%;
+  height: 160%;
+  top: -30%;
+  left: -30%;
+  background: radial-gradient(
+    ellipse 35% 35% at 50% 50%,
+    rgba(0,  100, 185,  0.48)  0%,
+    rgba(0,   85, 162,  0.24)  34%,
+    rgba(0,   70, 140,  0.09)  60%,
+    transparent                76%
+  );
+  will-change: transform;
+  animation: nebulaFlow 11s ease-in-out infinite;
+}
+
+@keyframes nebulaFlow {
+  0%   { transform: translate(18%, -16%); }
+  50%  { transform: translate(-18%, 18%); }
+  100% { transform: translate(18%, -16%); }
+}
+
+/* Violet centre — slow breathing scale, adds depth rhythm */
+.bgPulse {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 55% 55% at 50% 50%,
+    rgba(68, 38, 158,  0.28)  0%,
+    rgba(55, 32, 138,  0.12)  45%,
+    transparent               70%
+  );
+  animation: pulseBreathe 8s ease-in-out infinite;
+}
+
+@keyframes pulseBreathe {
+  0%, 100% { opacity: 0.45; transform: scale(1);    }
+  50%       { opacity: 1;   transform: scale(1.22); }
+}
+
+/* ── Atmospheric ribbons ──────────────────────────── */
+
+.ribbons {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ribbonWrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Muted blue — left column, tall diagonal */
+.ribbon1 {
+  position: absolute;
+  top: -10%;
+  left: 8%;
+  width: 220px;
+  height: 75vh;
+  background: linear-gradient(
+    180deg,
+    transparent                 0%,
+    rgba(30, 78, 185,   0.11)  30%,
+    rgba(30, 78, 185,   0.20)  50%,
+    rgba(30, 78, 185,   0.11)  70%,
+    transparent                100%
+  );
+  filter: blur(56px);
+  transform: rotate(-22deg);
+  border-radius: 40%;
+  animation: ribbonBreath 18s ease-in-out infinite;
+}
+
+/* Soft violet — right side */
+.ribbon2 {
+  position: absolute;
+  top: 22%;
+  right: 5%;
+  width: 170px;
+  height: 62vh;
+  background: linear-gradient(
+    180deg,
+    transparent                 0%,
+    rgba(68, 38, 148,   0.10)  35%,
+    rgba(68, 38, 148,   0.18)  50%,
+    rgba(68, 38, 148,   0.10)  65%,
+    transparent                100%
+  );
+  filter: blur(64px);
+  transform: rotate(18deg);
+  border-radius: 40%;
+  animation: ribbonBreath 24s ease-in-out infinite;
+  animation-delay: -9s;
+}
+
+/* Muted teal — low horizontal */
+.ribbon3 {
+  position: absolute;
+  bottom: 4%;
+  left: 26%;
+  width: 280px;
+  height: 40vh;
+  background: linear-gradient(
+    90deg,
+    transparent                0%,
+    rgba(0, 100, 148,   0.08) 40%,
+    rgba(0, 100, 148,   0.15) 50%,
+    rgba(0, 100, 148,   0.08) 60%,
+    transparent               100%
+  );
+  filter: blur(72px);
+  transform: rotate(-8deg);
+  border-radius: 40%;
+  animation: ribbonBreath 20s ease-in-out infinite;
+  animation-delay: -6s;
+}
+
+@keyframes ribbonBreath {
+  0%, 100% { opacity: 0.60; }
+  50%       { opacity: 1;    }
+}
+
+/* ── One-shot cool light sweep ────────────────────── */
+
+.lightSweep {
+  position: absolute;
+  top: 0;
+  left: -28%;
+  width: 28%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent                  0%,
+    rgba(180, 205, 255,  0.055) 30%,
+    rgba(220, 230, 255,  0.042) 50%,
+    rgba(180, 205, 255,  0.055) 70%,
+    transparent                 100%
+  );
+  filter: blur(16px);
+  opacity: 0;
+  animation: sweepOnce 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 1.25s;
+}
+
+@keyframes sweepOnce {
+  0%   { transform: translateX(0);    opacity: 0;   }
+  6%   { transform: translateX(10%);  opacity: 1;   }
+  90%  { transform: translateX(490%); opacity: 0.7; }
+  100% { transform: translateX(510%); opacity: 0;   }
+}
+
+/* ── Content ──────────────────────────────────────── */
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Title — Playfair Display, softer editorial serif ─ */
+
+.title {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(80px, 16vw, 210px);
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      110deg,
+      transparent                  30%,
+      rgba(200, 215, 255,  0.038)  48%,
+      rgba(220, 230, 255,  0.048)  50%,
+      rgba(200, 215, 255,  0.038)  52%,
+      transparent                  70%
+    );
+    background-size: 400% 100%;
+    background-position: 130% 0;
+    animation: shimmerCycle 14s ease-in-out infinite;
+    animation-delay: 2.8s;
+  }
+}
+
+@keyframes shimmerCycle {
+  0%   { background-position: 130% 0; }
+  42%  { background-position: -20% 0; }
+  100% { background-position: -20% 0; }
+}
+
+.letter {
+  display: inline-block;
+}
+
+/* ── Subtitle + tagline ───────────────────────────── */
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+  margin-top: 26px;
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(17px, 2.2vw, 30px);
+  color: rgba(201, 169, 110, 0.65);
+  margin-top: 14px;
+}
+
+/* ── Scroll indicator ─────────────────────────────── */
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 44px;
+  left: var(--page-pad);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  z-index: 2;
+}
+
+.scrollLine {
+  width: 44px;
+  height: 1px;
+  background: var(--ivory-dim);
+  transform-origin: left;
+}
+
+.scrollLabel {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+}
+
+/* ── Year tag ─────────────────────────────────────── */
+
+.yearTag {
+  position: absolute;
+  bottom: 44px;
+  right: var(--page-pad);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(244, 239, 230, 0.18);
+  writing-mode: vertical-rl;
+  z-index: 2;
+}
+
+/* ── Reduced motion ───────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .lightSweep   { display: none; }
+  .title::after { display: none; }
+  .bgAurora,
+  .bgNebula,
+  .bgPulse,
+  .ribbon1,
+  .ribbon2,
+  .ribbon3      { animation: none; }
+}
+
+/* ── Mobile ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .ribbon2,
+  .ribbon3 { display: none; }
+
+  .ribbon1 { left: -5%; width: 160px; }
+}

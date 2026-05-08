@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+
+    <filter id="bxl" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="75"/>
+    </filter>
+    <filter id="blg" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+
+    <!-- Wave motion: diagonal-biased turbulence -->
+    <filter id="wave" x="-50%" y="-50%" width="200%" height="200%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.005 0.016" numOctaves="2" seed="8" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="32" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="22"/>
+    </filter>
+
+    <!-- Vignette: warm amber corners -->
+    <radialGradient id="vgn" cx="400" cy="300" r="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#1C1810" stop-opacity="0"/>
+      <stop offset="64%"  stop-color="#120E08" stop-opacity="0.44"/>
+      <stop offset="100%" stop-color="#060402" stop-opacity="0.88"/>
+    </radialGradient>
+
+  </defs>
+
+  <!-- Base: dark amber -->
+  <rect width="800" height="600" fill="#1C1810"/>
+
+  <!-- Primary surge — large diagonal rotated ellipse, lower-left origin -->
+  <ellipse cx="275" cy="428" rx="315" ry="198"
+           fill="#C9A96E" fill-opacity="0.50" filter="url(#bxl)"
+           transform="rotate(-34 275 428)"/>
+
+  <!-- Wave crest — bright champagne, mid-canvas diagonal -->
+  <ellipse cx="438" cy="258" rx="258" ry="162"
+           fill="#C9A96E" fill-opacity="0.40" filter="url(#bxl)"
+           transform="rotate(-28 438 258)"/>
+
+  <!-- Coral accent — surge leading edge, upper-right -->
+  <ellipse cx="618" cy="158" rx="178" ry="128"
+           fill="#C07A65" fill-opacity="0.28" filter="url(#blg)"
+           transform="rotate(-20 618 158)"/>
+
+  <!-- Warm lower pocket — the trail of the surge -->
+  <ellipse cx="88" cy="518" rx="148" ry="98" fill="#C9A96E" fill-opacity="0.16" filter="url(#blg)"/>
+
+  <!-- Wave motion paths — the surge as light-wave curves -->
+  <g filter="url(#wave)" opacity="0.48">
+    <path d="M-80 488 C 82 385, 262 445, 442 322 C 582 224, 704 282, 905 202"
+          fill="none" stroke="#C9A96E" stroke-width="100" stroke-opacity="0.26" stroke-linecap="round"/>
+    <path d="M-80 572 C 98 465, 298 522, 498 402 C 648 312, 782 364, 922 305"
+          fill="none" stroke="#C07A65" stroke-width="80"  stroke-opacity="0.20" stroke-linecap="round"/>
+  </g>
+
+  <!-- Vignette overlay -->
+  <rect width="800" height="600" fill="url(#vgn)"/>
+
+</svg>

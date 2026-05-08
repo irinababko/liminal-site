@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Intel+One+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&family=Syne:wght@400;700&display=swap");
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;
+}
+
+body {
+  min-height: 100vh;
+  min-width: 320px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+:root {
+  --deep: #0C0C10;
+  --graphite: #18181E;
+  --deep-blue: #0A0A0E;
+  --deep-verse: #070710;
+  --ivory: #F4EFE6;
+  --champagne: #C9A96E;
+  --blue: #879DB8;
+  --coral: #C07A65;
+  --electric: #6EFFD4;
+  --ivory-dim: rgba(244, 239, 230, 0.55);
+  --glass-edge: rgba(244, 239, 230, 0.08);
+  --divider: rgba(244, 239, 230, 0.055);
+  --font-display: 'Intel One Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Syne', system-ui, sans-serif;
+  --font-body: 'Jost', system-ui, sans-serif;
+  --page-pad: clamp(24px, 5.5vw, 88px);
+  --section-v: clamp(80px, 10vh, 140px);
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--ivory);
+  line-height: 1.6;
+}
+
+html,
+body {
+  background-color: var(--deep);
+}
+
+/*# sourceMappingURL=global.css.map */

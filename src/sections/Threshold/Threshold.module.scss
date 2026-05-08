@@ -1,0 +1,176 @@
+.section {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--deep-blue);
+  overflow: hidden;
+
+  /* Vignette — deeper at edges, opens at centre */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 20%, rgba(4, 4, 8, 0.72) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+/* ── Abstract background image — veil.png, interference wave field ──
+   The horizontal ripple pattern resonates with "Before / After".
+   Screen blend at very low opacity adds only the luminous gold
+   and blue wave crests; everything else stays near-transparent.   */
+
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background-image: url('../../assets/resonance/veil.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.22;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  animation: bgDrift 54s ease-in-out infinite alternate;
+}
+
+@keyframes bgDrift {
+  from { transform: scale(1)    translate(0, 0);   }
+  to   { transform: scale(1.06) translate(24px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bgImage { animation: none; }
+}
+
+/* ── Pulsing ambient glow — dual layer ────────────── */
+
+.glow {
+  position: absolute;
+  width: 820px;
+  height: 820px;
+  border-radius: 50%;
+  /* warm champagne outer bloom */
+  background: radial-gradient(
+    circle,
+    rgba(201, 169, 110, 0.08) 0%,
+    rgba(201, 169, 110, 0.03) 42%,
+    transparent 70%
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulseGlow 6s ease-in-out infinite;
+
+  /* cool blue inner accent — pulses inverse phase */
+  &::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(135, 157, 184, 0.07) 0%,
+      transparent 68%
+    );
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulseGlow 6s ease-in-out infinite reverse;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);     opacity: 1;    }
+  50%       { transform: translate(-50%, -50%) scale(1.22);  opacity: 0.5;  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow,
+  .glow::after { animation: none; }
+}
+
+/* ── Ghost text — above ───────────────────────────── */
+
+.textAbove {
+  font-family: var(--font-display);
+  font-weight: 100;
+  font-size: clamp(80px, 18vw, 270px);
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  /* ivory — more faded, barely remembered */
+  color: rgba(244, 239, 230, 0.06);
+  text-align: center;
+  padding: 72px 0 64px;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Dividing line row ────────────────────────────── */
+
+.lineWrap {
+  width: 100%;
+  padding: 0 var(--page-pad);
+  position: relative;
+  z-index: 1;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 169, 110, 0.18) 15%,
+    rgba(201, 169, 110, 0.75) 42%,
+    rgba(201, 169, 110, 0.9)  50%,
+    rgba(135, 157, 184, 0.65) 58%,
+    rgba(135, 157, 184, 0.18) 85%,
+    transparent 100%
+  );
+  /* subtle luminous bloom below the line */
+  box-shadow:
+    0 0 12px rgba(201, 169, 110, 0.12),
+    0 0  4px rgba(201, 169, 110, 0.18);
+}
+
+.lineLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--deep-blue);
+  padding: 0 32px;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: clamp(9px, 0.85vw, 12px);
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--champagne);
+  text-shadow: 0 0 24px rgba(201, 169, 110, 0.25);
+}
+
+/* ── Ghost text — below ───────────────────────────── */
+
+.textBelow {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(80px, 18vw, 270px);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  /* blue — slightly more present, emerging */
+  color: rgba(135, 157, 184, 0.11);
+  text-align: center;
+  padding: 64px 0 72px;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+}

@@ -1,0 +1,118 @@
+@charset "UTF-8";
+.section {
+  position: relative;
+  min-height: 100vh;
+  background: var(--deep);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 72px;
+  padding: var(--section-v) var(--page-pad);
+}
+
+/* ── Abstract background image — echo.png, golden filaments ─────────
+   Positioned toward the right column where the blockquote lives.
+   Screen blend: only the bright gold streaks add light, dark base
+   of the image becomes transparent against the dark section bg.   */
+.bgImage {
+  position: absolute;
+  inset: 0;
+  background-image: url("../../assets/resonance/echo.png");
+  background-size: cover;
+  background-position: 80% 55%;
+  background-repeat: no-repeat;
+  opacity: 0.26;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  animation: bgDrift 42s ease-in-out infinite alternate;
+}
+
+@keyframes bgDrift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.08) translate(-22px, 10px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bgImage {
+    animation: none;
+  }
+}
+.ghostNumber {
+  position: absolute;
+  top: -0.05em;
+  right: var(--page-pad);
+  font-family: var(--font-display);
+  font-weight: 200;
+  font-size: clamp(180px, 28vw, 380px);
+  color: rgba(244, 239, 230, 0.025);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  line-height: 1;
+}
+
+.left {
+  position: relative;
+  z-index: 1;
+}
+
+.right {
+  position: relative;
+  z-index: 1;
+}
+
+.label {
+  margin-bottom: 36px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(34px, 4.8vw, 66px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+}
+.heading em {
+  font-style: italic;
+  color: var(--blue);
+}
+
+.body {
+  font-family: var(--font-body);
+  font-weight: 200;
+  font-size: clamp(14px, 1.4vw, 17px);
+  line-height: 1.85;
+  color: var(--ivory-dim);
+  margin-top: 32px;
+}
+
+.aside {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(18px, 2.2vw, 30px);
+  line-height: 1.45;
+  color: rgba(244, 239, 230, 0.3);
+  border-left: 1px solid rgba(244, 239, 230, 0.09);
+  padding-left: 40px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    grid-template-columns: 1fr;
+  }
+  .aside {
+    border-left: none;
+    padding-left: 0;
+    margin-top: 40px;
+    border-top: 1px solid rgba(244, 239, 230, 0.09);
+    padding-top: 32px;
+  }
+}
+
+/*# sourceMappingURL=Breath.module.css.map */
