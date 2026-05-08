@@ -27,7 +27,7 @@ export function Current() {
   };
 
   return (
-    <section className={s.section}>
+    <section className={s.section} data-snap-section>
       <div className={s.mesh} aria-hidden="true" />
       <div className={s.bgImage} aria-hidden="true" />
 

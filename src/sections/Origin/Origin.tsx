@@ -26,7 +26,7 @@ export function Origin() {
   };
 
   return (
-    <section className={s.section}>
+    <section className={s.section} data-snap-section>
       <div className={s.bgImage} aria-hidden="true" />
 
       {/* Dual-layer ambient glow */}

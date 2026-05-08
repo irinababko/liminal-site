@@ -5,7 +5,7 @@ const SOCIAL_LINKS = ['Instagram', 'Behance', 'GitHub'] as const;
 
 export function Footer() {
   return (
-    <footer className={s.footer}>
+    <footer className={s.footer} data-snap-section>
       <div className={s.top}>
         <div className={s.brand}>
           <p className={s.wordmark}>LIMINAL</p>

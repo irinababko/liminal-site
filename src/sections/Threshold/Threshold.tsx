@@ -9,7 +9,7 @@ export function Threshold() {
   const viewport = { once: true, margin: '-80px' } as const;
 
   return (
-    <section className={s.section}>
+    <section className={s.section} data-snap-section>
       <div className={s.bgImage} aria-hidden="true" />
       <div className={s.glow} aria-hidden="true" />
 

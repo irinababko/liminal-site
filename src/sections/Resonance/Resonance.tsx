@@ -36,7 +36,7 @@ export function Resonance() {
   };
 
   return (
-    <section className={s.section}>
+    <section className={s.section} data-snap-section>
       <div className={s.bgImage} aria-hidden="true" />
       <header className={s.header}>
         <Reveal>
