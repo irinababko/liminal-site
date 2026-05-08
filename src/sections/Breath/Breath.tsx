@@ -4,7 +4,7 @@ import s from './Breath.module.scss';
 
 export function Breath() {
   return (
-    <section className={s.section} data-snap-section>
+    <section className={s.section}>
       <div className={s.bgImage} aria-hidden="true" />
       <span className={s.ghostNumber} aria-hidden="true">01</span>
 

@@ -75,7 +75,7 @@ export function Hero() {
   };
 
   return (
-    <section ref={sectionRef} className={s.section} data-snap-section>
+    <section ref={sectionRef} className={s.section}>
       <canvas ref={canvasRef} className={s.canvas} />
 
       {/* CSS gradient flow — primary visible background animation */}

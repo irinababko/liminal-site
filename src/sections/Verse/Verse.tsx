@@ -114,7 +114,7 @@ export function Verse() {
   });
 
   return (
-    <section ref={sectionRef} className={s.section} data-snap-section>
+    <section ref={sectionRef} className={s.section}>
 
       <div className={s.bgImage} aria-hidden="true" />
 
