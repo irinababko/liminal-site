@@ -6,8 +6,11 @@ import { Threshold } from './sections/Threshold/Threshold';
 import { Verse } from './sections/Verse/Verse';
 import { Origin } from './sections/Origin/Origin';
 import { Footer } from './components/Footer/Footer';
+import { useLenis } from './hooks/useLenis';
 
 function App() {
+  useLenis();
+
   return (
     <>
       <main>
