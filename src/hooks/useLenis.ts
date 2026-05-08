@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 
 // ── Constants ──────────────────────────────────────────────────────────────
-const SNAP_DEBOUNCE_MS = 160;
-const SNAP_THRESHOLD   = 0.42; // fraction of viewport — snap fires within 42% vh of a section top
+const SNAP_DEBOUNCE_MS = 480;
+const SNAP_THRESHOLD   = 0.18; // fraction of viewport — only snap when within 18% vh of a section top
 const SNAP_DURATION    = 1.1;  // seconds
 
 const lenisEasing = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
